@@ -5,6 +5,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Feliz Cumpleaños Rosalinda</title>
+
+<!-- 🔹 Script anti-caché -->
+<script>
+  (function() {
+    const version = new Date().getTime();
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('link[rel="stylesheet"], script[src], img').forEach(el => {
+        const attr = el.tagName === 'LINK' ? 'href' : 'src';
+        if (el[attr] && !el[attr].includes('?v=')) {
+          el[attr] = el[attr] + '?v=' + version;
+        }
+      });
+    });
+  })();
+</script>
+
 <style>
   :root{
     --neon:#ff00ff; --glass:rgba(0,0,0,.42); --glass-border:rgba(255,255,255,.25);
