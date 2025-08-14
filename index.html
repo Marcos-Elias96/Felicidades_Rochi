@@ -6,42 +6,98 @@
 <title>Feliz Cumpleaños Rosalinda</title>
 <style>
   :root{
-    --neon:#ff00ff; --glass:rgba(255,255,255,.12); --glass-border:rgba(255,255,255,.28);
+    --neon:#ff00ff; --glass:rgba(0,0,0,.42); --glass-border:rgba(255,255,255,.25);
   }
   *{box-sizing:border-box}
   body{
     margin:0; padding:0; overflow:hidden; background:#000; height:100vh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
     font-family:'Comic Sans MS', cursive;
   }
-  h1{
-    font-size:2.4em; margin:0 16px 10px; text-align:center; z-index:1;
-    background:linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-    -webkit-background-clip:text; color:transparent; animation:colorchange 3s linear infinite;
-    -webkit-text-stroke:2px #fff;
-    text-shadow:0 0 5px #fff, 0 0 10px #fff, 0 0 20px var(--neon), 0 0 30px var(--neon);
+
+  /* ===== HERO con imagen de fondo ===== */
+  .hero{
+    position:fixed; inset:0; z-index:1;
+    background-image:url('ROUCHPORT.jpeg');           /* <-- tu imagen */
+    background-size:cover; background-position:center;
+    display:flex; align-items:center; justify-content:center;
   }
-  @keyframes colorchange{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
-  canvas{position:fixed; inset:0; z-index:-1}
-  .heart-container{display:flex; flex-direction:column; align-items:center; cursor:pointer; z-index:1}
-  .heart{font-size:110px; color:red; animation:pulse 1s infinite}
-  .click-text{color:#fff; font-weight:bold; font-size:22px; margin-top:-10px; text-shadow:0 0 10px red, 0 0 20px red}
+  /* overlay para que el texto SIEMPRE resalte */
+  .hero::after{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.05) 0%, rgba(0,0,0,.25) 60%, rgba(0,0,0,.45) 100%),
+      linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.35));
+    pointer-events:none;
+  }
+
+  /* Caja centrada con efecto “glass” detrás del texto */
+  .title-box{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:6px; padding:18px 22px; border-radius:22px;
+    background: rgba(0,0,0,.28); /* cristal oscuro para no tapar la foto pero dar contraste */
+    border:1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(6px);
+    box-shadow:0 10px 40px rgba(0,0,0,.45);
+    max-width:min(92vw, 820px);
+  }
+
+  /* ===== AJUSTE: Título con contorno dorado + sombra oscura ===== */
+  .title{
+    text-align:center; margin:0;
+    font-size:clamp(36px, 7vw, 70px); line-height:1.12;
+    letter-spacing:1px;
+
+    /* Relleno claro que contrasta */
+    color:#fff7dc;
+
+    /* Glow dorado + anillo dorado fino + contorno oscuro externo */
+    text-shadow:
+      0 0 1px #fff7dc,
+      0 0 10px rgba(255,215,110,.55),
+      0 0 26px rgba(255,200,90,.45),
+      -1px -1px 0 #ffe29a,  1px -1px 0 #ffe29a,
+      -1px  1px 0 #ffe29a,  1px  1px 0 #ffe29a,
+      -2px -2px 0 #2a0000,  2px -2px 0 #2a0000,
+      -2px  2px 0 #2a0000,  2px  2px 0 #2a0000,
+      0 6px 22px rgba(0,0,0,.45);
+
+    /* Trazo sutil adicional */
+    -webkit-text-stroke: 1px rgba(42,0,0,.55);
+  }
+  .title .line{ display:block; }
+
+  /* ===== AJUSTE: Subtítulo con el mismo tratamiento ===== */
+  .subtitle{
+    margin:2px 0 2px; text-align:center;
+    font-size:clamp(18px, 3.6vw, 26px);
+    color:#fff2bf;
+    text-shadow:
+      0 0 1px #fff2bf,
+      0 0 10px rgba(255,215,110,.45),
+      -1px -1px 0 #ffe29a,  1px -1px 0 #ffe29a,
+      -1px  1px 0 #ffe29a,  1px  1px 0 #ffe29a,
+      -2px -2px 0 #2a0000,  2px -2px 0 #2a0000,
+      -2px  2px 0 #2a0000,  2px  2px 0 #2a0000;
+    -webkit-text-stroke: .8px rgba(42,0,0,.45);
+  }
+
+  .heart-container{margin-top:8px; cursor:pointer; display:flex; flex-direction:column; align-items:center}
+  .heart{font-size:110px; color:#ff4d6d; animation:pulse 1s infinite; filter: drop-shadow(0 6px 16px rgba(0,0,0,.5))}
+  .click-text{color:#ffe9b0; font-weight:bold; font-size:clamp(18px,3.6vw,22px); margin-top:-6px; text-shadow:0 2px 0 rgba(0,0,0,.75)}
   @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
 
+  /* ===== LIBRO ===== */
   body.book-open #book{ display:flex !important; }
-
   .book{
-    display:none !important;
-    position:fixed; inset:0; background:rgba(0,0,0,.92);
+    display:none !important; position:fixed; inset:0; background:rgba(0,0,0,.92);
     z-index:10; flex-direction:column; align-items:center; justify-content:center; gap:10px;
   }
-
   .carousel{
     position:relative; width:min(95vw, 900px); aspect-ratio:9/16;
     background:#0b0b0b; border-radius:18px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.6);
     display:flex; flex-direction:column; align-items:center; justify-content:center;
   }
-
   .bg-bokeh{
     position:absolute; inset:0; z-index:0;
     background:
@@ -50,99 +106,61 @@
       radial-gradient(140px 140px at 30% 80%, rgba(255,255,255,0.08), transparent 60%),
       radial-gradient(100px 100px at 70% 20%, rgba(255,255,255,0.10), transparent 60%),
       linear-gradient(135deg, #ff9a9e, #fad0c4 30%, #a18cd1 60%, #fbc2eb 100%);
-    background-size:cover;
-    filter: blur(22px) brightness(.85);
-    transform: scale(1.1);
+    background-size:cover; filter: blur(22px) brightness(.85); transform: scale(1.1);
   }
-  .carousel img{
-    position:relative; z-index:1;
-    width:100%; height:100%;
-    object-fit:contain; background-color:transparent; display:block;
-  }
-
-  /* Contenedor mini (audio) */
+  .carousel img{position:relative; z-index:1; width:100%; height:100%; object-fit:contain; background:transparent; display:block;}
   .video-mini{
-    position:absolute;
-    bottom:15px; left:15px;
-    width:200px; height:60px;
-    z-index:5; border-radius:10px;
-    overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,.6);
-    background: rgba(0,0,0,.5);
-    display:flex; align-items:center; justify-content:center;
-    padding:6px;
+    position:absolute; bottom:15px; left:15px; width:200px; height:60px; z-index:5; border-radius:10px;
+    overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,.6); background: rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center; padding:6px;
   }
-  .video-mini audio{
-    width:100%;
-    height:36px;
-    outline:none;
-    filter: drop-shadow(0 0 4px rgba(0,0,0,.4));
-  }
+  .video-mini audio{width:100%; height:36px; outline:none; filter: drop-shadow(0 0 4px rgba(0,0,0,.4));}
+  .controls-float{position:absolute; right:10px; top:10px; display:flex; gap:8px; z-index:3; flex-wrap:wrap;}
+  .btn{background:var(--glass); border:1px solid var(--glass-border); color:#fff; padding:8px 12px; border-radius:12px; font-size:15px; cursor:pointer; user-select:none; box-shadow:0 6px 20px rgba(0,0,0,.35); backdrop-filter: blur(6px); transition:transform .1s ease, background .2s ease;}
+  .btn:active{transform:scale(.97)} .btn-danger{background:rgba(255,0,0,.18); border-color:rgba(255,0,0,.45)}
 
-  .dedication{
-    position:absolute; inset:0; display:none; place-items:center; padding:20px;
-    background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.75));
-    color:#fff; text-align:center; z-index:2;
-  }
-  .dedic-card{
-    width:88%; margin:auto; padding:18px 16px; border-radius:16px;
-    backdrop-filter: blur(8px);
-    background: rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.18);
-    box-shadow:0 10px 50px rgba(255,0,200,.25);
-  }
-  .dedic-title{
-    font-size:clamp(20px, 5.2vw, 34px); margin:0 0 8px;
-    background:linear-gradient(90deg,#ff7ad6,#ffd166,#7afcff,#b693ff);
-    -webkit-background-clip:text; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.6);
-    text-shadow:0 0 16px rgba(255,255,255,.35);
-  }
-  .dedic-text{font-size:clamp(15px, 3.6vw, 20px); line-height:1.35; margin:0 0 8px; color:#f1f1f1}
-  .dedic-sign{font-size:clamp(13px, 3.2vw, 18px); color:#ffd6ff; opacity:.95}
-
-  .controls-float{
-    position:absolute; right:10px; top:10px; display:flex; gap:8px; z-index:3; flex-wrap:wrap;
-  }
-  .btn{
-    background:var(--glass); border:1px solid var(--glass-border); color:#fff;
-    padding:8px 12px; border-radius:12px; font-size:15px; cursor:pointer; user-select:none;
-    box-shadow:0 6px 20px rgba(0,0,0,.35); backdrop-filter: blur(6px);
-    transition:transform .1s ease, background .2s ease;
-  }
-  .btn:active{transform:scale(.97)}
-  .btn-danger{background:rgba(255,0,0,.18); border-color:rgba(255,0,0,.45)}
+  /* Tarjeta final grande y abajo */
+  .dedication{position:absolute; inset:0; display:none; place-items:end center; padding:24px 16px 28px; background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.8)); color:#fff; text-align:center; z-index:2;}
+  .dedic-card{width:min(92%, 760px); margin:0 auto; padding:22px 18px; border-radius:18px; backdrop-filter: blur(10px); background: rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.20); box-shadow:0 14px 60px rgba(255,0,200,.25);}
+  .dedic-title{font-size:clamp(22px, 5.6vw, 38px); margin:0 0 10px; background:linear-gradient(90deg,#ff7ad6,#ffd166,#7afcff,#b693ff); -webkit-background-clip:text; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.65); text-shadow:0 0 16px rgba(255,255,255,.35);}
+  .dedic-text{font-size:clamp(16px, 4.2vw, 22px); line-height:1.45; margin:0 0 10px; color:#f7f7f7}
+  .dedic-sign{font-size:clamp(14px, 3.8vw, 20px); color:#ffd6ff; opacity:.98}
 </style>
 </head>
 <body>
 
-<canvas id="confetti"></canvas>
+<!-- HERO -->
+<section class="hero">
+  <div class="title-box">
+    <h1 class="title">
+      <span class="line">🎉 Feliz</span>
+      <span class="line">Cumpleaños</span>
+      <span class="line">Rosalinda Arellano</span>
+      <span class="line">Granados 🎉</span>
+    </h1>
+    <p class="subtitle">Con todo mi cariño</p>
 
-<h1>🎉 Feliz Cumpleaños<br>Rosalinda Arellano Granados 🎉</h1>
+    <div class="heart-container" onclick="openBook()">
+      <div class="heart">❤️</div>
+      <div class="click-text">Da clic aquí</div>
+    </div>
+  </div>
+</section>
 
-<div class="heart-container" onclick="openBook()">
-  <div class="heart">❤️</div>
-  <div class="click-text">Da clic aquí</div>
-</div>
-
+<!-- LIBRO -->
 <div class="book" id="book">
   <div class="carousel">
     <div class="bg-bokeh"></div>
     <img id="carouselImage" src="" alt="Foto de Rosalinda" />
-
-    <!-- Mini reproductor: AUDIO LOCAL -->
-    <div class="video-mini">
-      <audio id="bgAudio" src="cancion.mp3" preload="auto" controls></audio>
-    </div>
-
+    <div class="video-mini"><audio id="bgAudio" src="cancion.mp3" preload="auto" controls></audio></div>
     <div class="controls-float">
       <button id="musicBtn" class="btn" onclick="toggleMusic()" aria-label="Música">▶ Música</button>
       <button class="btn btn-danger" onclick="closeBook()" aria-label="Cerrar libro">✖ Cerrar</button>
     </div>
-
     <div id="dedication" class="dedication">
       <div class="dedic-card">
         <h2 class="dedic-title">¡Feliz Cumpleaños, Rochi! 🎂✨</h2>
-        <p class="dedic-text">Que tu día esté lleno de alegría, amor y momentos inolvidables.<br/>
-        ¡Que vengan muchos años más de éxitos y sonrisas!</p>
+        <p class="dedic-text">Que tu día esté lleno de alegría, amor y momentos inolvidables.<br/>¡Que vengan muchos años más de éxitos y sonrisas!</p>
         <div class="dedic-sign">— Con mucho cariño, Elias 💚</div>
       </div>
     </div>
@@ -150,106 +168,25 @@
 </div>
 
 <script>
-/* Confeti */
-const canvas = document.getElementById("confetti");
-const ctx = canvas.getContext("2d");
-function sizeCanvas(){canvas.width=innerWidth; canvas.height=innerHeight}
-sizeCanvas(); addEventListener("resize", sizeCanvas);
-const pieces=[]; for(let i=0;i<160;i++){pieces.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*7+3,s:Math.random()*1.5+0.6,c:`hsl(${Math.random()*360},100%,50%)`})}
-;(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);for(const p of pieces){p.y+=p.s;if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width}ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()}requestAnimationFrame(loop)})();
+/* Pétalos dorado/rojo */
+const canvas=document.createElement('canvas');canvas.id='confetti';document.body.prepend(canvas);
+const ctx=canvas.getContext('2d');function sizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}sizeCanvas();addEventListener('resize',sizeCanvas);
+class Petal{constructor(){this.reset(true)}reset(f=false){this.x=Math.random()*canvas.width;this.y=f?Math.random()*canvas.height:-20;this.size=10+Math.random()*14;this.speed=.4+Math.random()*1;this.swing=(Math.random()*.6)+.2;this.phase=Math.random()*Math.PI*2;this.rot=Math.random()*Math.PI*2;this.rotSpeed=(Math.random()*.02)-.01;this.isGold=Math.random()<.55;this.c1=this.isGold?"#FFD05C":"#FF6B6B";this.c2=this.isGold?"#E2AF24":"#B91C1C"}draw(){this.y+=this.speed;this.x+=Math.sin(this.phase+=.01)*this.swing;this.rot+=this.rotSpeed;if(this.y-this.size>canvas.height)this.reset();ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);const g=ctx.createLinearGradient(-this.size,-this.size,this.size,this.size);g.addColorStop(0,this.c1);g.addColorStop(1,this.c2);ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(0,0,this.size*.55,this.size,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.35;ctx.fillStyle="#fff";ctx.beginPath();ctx.ellipse(-this.size*.15,-this.size*.15,this.size*.12,this.size*.28,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;ctx.restore()}}
+const petals=Array.from({length:120},()=>new Petal());(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);petals.forEach(p=>p.draw());requestAnimationFrame(loop)})();
 
-/* Carrusel */
-const images=[
-  "1FOTO.jpeg","2FOTO.jpeg","3FOTO.jpeg","4FOTO.jpeg","5FOTO.jpeg","6FOTO.jpeg",
-  "7.FOTO.jpeg",
-  "8FOTO.jpg","9FOTO.jpg","10FOTO.jpg","11FOTO.jpeg","12FOTO.jpeg",
-  "13FOTO.jpeg","14FOTO.jpeg","15FOTO.jpeg","16FOTO.jpeg","17FOTO.jpeg","18FOTO.jpeg","19FOTO.jpeg","20FOTO.jpeg"
-];
-let index=0, timer=null;
-const imgEl=document.getElementById("carouselImage");
-const dedication=document.getElementById("dedication");
+/* Carrusel + tarjeta al final */
+const images=["1FOTO.jpeg","2FOTO.jpeg","3FOTO.jpeg","4FOTO.jpeg","5FOTO.jpeg","6FOTO.jpeg","7.FOTO.jpeg","8FOTO.jpg","9FOTO.jpg","10FOTO.jpg","11FOTO.jpeg","12FOTO.jpeg","13FOTO.jpeg","14FOTO.jpeg","15FOTO.jpeg","16FOTO.jpeg","17FOTO.jpeg","18FOTO.jpeg","19FOTO.jpeg","20FOTO.jpeg"];
+let index=0,timer=null;const imgEl=document.getElementById("carouselImage");const dedication=document.getElementById("dedication");
+function showImage(i){dedication.style.display="none";imgEl.style.display="block";imgEl.src=images[i]}
+function showDedication(){dedication.style.display="grid"}
+function nextImage(){if(index<images.length-1){index++;showImage(index);if(index===images.length-1){showDedication();clearInterval(timer);timer=null}}else{showDedication();clearInterval(timer);timer=null}}
 
-function showImage(i){
-  dedication.style.display="none";
-  imgEl.style.display="block";
-  imgEl.src=images[i];
-}
-function showDedication(){ dedication.style.display="grid"; }
-
-function nextImage(){
-  if(index < images.length - 1){
-    index++;
-    showImage(index);
-    if(index === images.length - 1){
-      showDedication();
-      clearInterval(timer); timer=null;
-    }
-  } else {
-    showDedication();
-    clearInterval(timer); timer=null;
-  }
-}
-
-/* Música: 38s → 105s (1:45) */
-const audio = document.getElementById('bgAudio');
-const musicBtn = document.getElementById('musicBtn');
-let isPlaying = false;
-const START_AT = 38;  // segundos
-const END_AT   = 105; // 1:45
-
-audio.addEventListener('timeupdate', () => {
-  if (audio.currentTime >= END_AT) {
-    audio.pause();
-    audio.currentTime = END_AT;
-    musicBtn.textContent = "▶ Música";
-    isPlaying = false;
-  }
-});
-
-function toggleMusic(){
-  if(!audio) return;
-  if(isPlaying){
-    audio.pause();
-    musicBtn.textContent = "▶ Música";
-    isPlaying = false;
-  }else{
-    if (audio.currentTime < START_AT || audio.currentTime > END_AT) {
-      audio.currentTime = START_AT;
-    }
-    audio.play().then(()=>{
-      musicBtn.textContent = "⏸ Música";
-      isPlaying = true;
-    }).catch(()=>{
-      alert("Si no suena, toca el botón ▶ del reproductor (política del navegador).");
-    });
-  }
-}
-
-/* Abrir y cerrar libro */
-function openBook(){
-  document.body.classList.add("book-open");
-  index=0;
-  showImage(index);
-  clearInterval(timer); timer=setInterval(nextImage,3000);
-
-  // Música: inicia en 38s al abrir
-  audio.currentTime = START_AT; 
-  audio.play().then(()=>{
-    musicBtn.textContent = "⏸ Música";
-    isPlaying = true;
-  }).catch(()=>{
-    console.warn("El navegador pidió interacción extra para el audio.");
-  });
-}
-
-function closeBook(){
-  document.body.classList.remove("book-open");
-  clearInterval(timer); timer=null;
-  if(audio){ audio.pause(); }
-  isPlaying = false;
-  musicBtn.textContent = "▶ Música";
-  audio.currentTime = START_AT;
-}
+/* Música 38s → 1:45 */
+const audio=document.getElementById('bgAudio');const musicBtn=document.getElementById('musicBtn');let isPlaying=false;const START_AT=38,END_AT=105;
+audio.addEventListener('timeupdate',()=>{if(audio.currentTime>=END_AT){audio.pause();audio.currentTime=END_AT;musicBtn.textContent="▶ Música";isPlaying=false}});
+function toggleMusic(){if(isPlaying){audio.pause();musicBtn.textContent="▶ Música";isPlaying=false}else{if(audio.currentTime<START_AT||audio.currentTime>END_AT)audio.currentTime=START_AT;audio.play().then(()=>{musicBtn.textContent="⏸ Música";isPlaying=true}).catch(()=>{})}}
+function openBook(){document.body.classList.add("book-open");index=0;showImage(index);clearInterval(timer);timer=setInterval(nextImage,3000);audio.currentTime=START_AT;audio.play().then(()=>{musicBtn.textContent="⏸ Música";isPlaying=true}).catch(()=>{})}
+function closeBook(){document.body.classList.remove("book-open");clearInterval(timer);timer=null;audio.pause();isPlaying=false;musicBtn.textContent="▶ Música";audio.currentTime=START_AT}
 </script>
 </body>
 </html>
