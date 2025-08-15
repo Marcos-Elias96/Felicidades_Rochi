@@ -34,11 +34,10 @@
   /* ===== HERO con imagen de fondo ===== */
   .hero{
     position:fixed; inset:0; z-index:1;
-    background-image:url('ROUCHPORT.jpeg?v=rosas');        /* <-- tu imagen */
+    background-image:url('ROUCHPORT.jpeg');
     background-size:cover; background-position:center;
     display:flex; align-items:center; justify-content:center;
   }
-  /* overlay para que el texto SIEMPRE resalte */
   .hero::after{
     content:""; position:absolute; inset:0;
     background:
@@ -47,44 +46,39 @@
     pointer-events:none;
   }
 
-  /* Caja centrada con efecto “glass” detrás del texto */
+  /* Caja centrada */
   .title-box{
     position:relative; z-index:2;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     gap:6px; padding:18px 22px; border-radius:22px;
-    background: rgba(0,0,0,.28); /* cristal oscuro para no tapar la foto pero dar contraste */
+    background: rgba(0,0,0,.28);
     border:1px solid rgba(255,255,255,.18);
     backdrop-filter: blur(6px);
     box-shadow:0 10px 40px rgba(0,0,0,.45);
     max-width:min(92vw, 820px);
   }
 
-  /* ===== AJUSTE: Título con contorno dorado + sombra oscura ===== */
+  /* ===== Título ajustado ===== */
   .title{
     text-align:center; margin:0;
-    font-size:clamp(36px, 7vw, 70px); line-height:1.12;
+    font-size:clamp(42px, 8vw, 80px); /* aumentado */
+    line-height:1.12;
     letter-spacing:1px;
-
-    /* Relleno claro que contrasta */
-    color:#fff7dc;
-
-    /* Glow dorado + anillo dorado fino + contorno oscuro externo */
+    color:#fffbe9; /* más claro */
     text-shadow:
-      0 0 1px #fff7dc,
-      0 0 10px rgba(255,215,110,.55),
-      0 0 26px rgba(255,200,90,.45),
+      0 0 2px #fffbe9,
+      0 0 14px rgba(255,215,110,.65),
+      0 0 30px rgba(255,200,90,.55),
       -1px -1px 0 #ffe29a,  1px -1px 0 #ffe29a,
       -1px  1px 0 #ffe29a,  1px  1px 0 #ffe29a,
       -2px -2px 0 #2a0000,  2px -2px 0 #2a0000,
       -2px  2px 0 #2a0000,  2px  2px 0 #2a0000,
-      0 6px 22px rgba(0,0,0,.45);
-
-    /* Trazo sutil adicional */
-    -webkit-text-stroke: 1px rgba(42,0,0,.55);
+      0 6px 26px rgba(0,0,0,.55);
+    -webkit-text-stroke: 1.2px rgba(42,0,0,.55);
   }
   .title .line{ display:block; }
 
-  /* ===== AJUSTE: Subtítulo con el mismo tratamiento ===== */
+  /* Subtítulo */
   .subtitle{
     margin:2px 0 2px; text-align:center;
     font-size:clamp(18px, 3.6vw, 26px);
@@ -136,8 +130,14 @@
   .btn{background:var(--glass); border:1px solid var(--glass-border); color:#fff; padding:8px 12px; border-radius:12px; font-size:15px; cursor:pointer; user-select:none; box-shadow:0 6px 20px rgba(0,0,0,.35); backdrop-filter: blur(6px); transition:transform .1s ease, background .2s ease;}
   .btn:active{transform:scale(.97)} .btn-danger{background:rgba(255,0,0,.18); border-color:rgba(255,0,0,.45)}
 
-  /* Tarjeta final grande y abajo */
-  .dedication{position:absolute; inset:0; display:none; place-items:end center; padding:24px 16px 28px; background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.8)); color:#fff; text-align:center; z-index:2;}
+  /* Tarjeta final más arriba */
+  .dedication{
+    position:absolute; inset:0; display:none;
+    place-items:end center;
+    padding:24px 16px 18px; /* antes 28px */
+    background:linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.8));
+    color:#fff; text-align:center; z-index:2;
+  }
   .dedic-card{width:min(92%, 760px); margin:0 auto; padding:22px 18px; border-radius:18px; backdrop-filter: blur(10px); background: rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.20); box-shadow:0 14px 60px rgba(255,0,200,.25);}
   .dedic-title{font-size:clamp(22px, 5.6vw, 38px); margin:0 0 10px; background:linear-gradient(90deg,#ff7ad6,#ffd166,#7afcff,#b693ff); -webkit-background-clip:text; color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.65); text-shadow:0 0 16px rgba(255,255,255,.35);}
   .dedic-text{font-size:clamp(16px, 4.2vw, 22px); line-height:1.45; margin:0 0 10px; color:#f7f7f7}
@@ -185,20 +185,20 @@
 </div>
 
 <script>
-/* Pétalos dorado/rojo */
+/* Pétalos */
 const canvas=document.createElement('canvas');canvas.id='confetti';document.body.prepend(canvas);
 const ctx=canvas.getContext('2d');function sizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight}sizeCanvas();addEventListener('resize',sizeCanvas);
 class Petal{constructor(){this.reset(true)}reset(f=false){this.x=Math.random()*canvas.width;this.y=f?Math.random()*canvas.height:-20;this.size=10+Math.random()*14;this.speed=.4+Math.random()*1;this.swing=(Math.random()*.6)+.2;this.phase=Math.random()*Math.PI*2;this.rot=Math.random()*Math.PI*2;this.rotSpeed=(Math.random()*.02)-.01;this.isGold=Math.random()<.55;this.c1=this.isGold?"#FFD05C":"#FF6B6B";this.c2=this.isGold?"#E2AF24":"#B91C1C"}draw(){this.y+=this.speed;this.x+=Math.sin(this.phase+=.01)*this.swing;this.rot+=this.rotSpeed;if(this.y-this.size>canvas.height)this.reset();ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);const g=ctx.createLinearGradient(-this.size,-this.size,this.size,this.size);g.addColorStop(0,this.c1);g.addColorStop(1,this.c2);ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(0,0,this.size*.55,this.size,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.35;ctx.fillStyle="#fff";ctx.beginPath();ctx.ellipse(-this.size*.15,-this.size*.15,this.size*.12,this.size*.28,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;ctx.restore()}}
 const petals=Array.from({length:120},()=>new Petal());(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);petals.forEach(p=>p.draw());requestAnimationFrame(loop)})();
 
-/* Carrusel + tarjeta al final */
+/* Carrusel */
 const images=["1FOTO.jpeg","2FOTO.jpeg","3FOTO.jpeg","4FOTO.jpeg","5FOTO.jpeg","6FOTO.jpeg","7.FOTO.jpeg","8FOTO.jpg","9FOTO.jpg","10FOTO.jpg","11FOTO.jpeg","12FOTO.jpeg","13FOTO.jpeg","14FOTO.jpeg","15FOTO.jpeg","16FOTO.jpeg","17FOTO.jpeg","18FOTO.jpeg","19FOTO.jpeg","20FOTO.jpeg"];
 let index=0,timer=null;const imgEl=document.getElementById("carouselImage");const dedication=document.getElementById("dedication");
 function showImage(i){dedication.style.display="none";imgEl.style.display="block";imgEl.src=images[i]}
 function showDedication(){dedication.style.display="grid"}
 function nextImage(){if(index<images.length-1){index++;showImage(index);if(index===images.length-1){showDedication();clearInterval(timer);timer=null}}else{showDedication();clearInterval(timer);timer=null}}
 
-/* Música 38s → 1:45 */
+/* Música */
 const audio=document.getElementById('bgAudio');const musicBtn=document.getElementById('musicBtn');let isPlaying=false;const START_AT=38,END_AT=105;
 audio.addEventListener('timeupdate',()=>{if(audio.currentTime>=END_AT){audio.pause();audio.currentTime=END_AT;musicBtn.textContent="▶ Música";isPlaying=false}});
 function toggleMusic(){if(isPlaying){audio.pause();musicBtn.textContent="▶ Música";isPlaying=false}else{if(audio.currentTime<START_AT||audio.currentTime>END_AT)audio.currentTime=START_AT;audio.play().then(()=>{musicBtn.textContent="⏸ Música";isPlaying=true}).catch(()=>{})}}
